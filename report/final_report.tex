@@ -14,10 +14,21 @@
 \title{GNN-Based BERT for Understanding Context from Music: \\ A Hybrid Structural and Semantic Multi-Modal Architecture}
 
 \author{
+  \textbf{Group 1} \\[0.5em]
+  Aryan Rafsanjany \\
+  Student ID: 22299025 \quad (Section 5) \\
+  Department of CSE, BRAC University \\
+  \texttt{aryan.rafsanjany@g.bracu.ac.bd} \\
+  \And
   Hasin Ishrak \\
-  Department of Computer Science and Engineering \\
-  BRAC University, Dhaka, Bangladesh \\
+  Student ID: 22201133 \quad (Section 6) \\
+  Department of CSE, BRAC University \\
   \texttt{hasin.ishrak@g.bracu.ac.bd} \\
+  \And
+  Himel Hasan \\
+  Student ID: 22201156 \quad (Section 5) \\
+  Department of CSE, BRAC University \\
+  \texttt{himel.hasan@g.bracu.ac.bd} \\
 }
 
 \begin{document}
@@ -54,7 +65,7 @@ To address the fundamental limitations of both planar CNN audio models and detac
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.78\linewidth]{architecture_diagram.png}
+    \includegraphics[width=0.74\linewidth]{architecture_diagram.png}
     \caption{\textbf{Overview of the Proposed Hybrid GNN-BERT Architecture.} Raw audio is segmented into 5-second windows to construct a Music Structure Graph with temporal and acoustic similarity edges, processed by a GraphSAGE encoder. Concurrently, lyrics and contextual metadata are processed by DistilBERT. A multi-head cross-attention mechanism fuses structural audio features with textual tokens, driving multi-label tag classification, continuous emotion regression, and InfoNCE contrastive text-to-music retrieval.}
     \label{fig:architecture}
 \end{figure}
@@ -286,7 +297,7 @@ The ablation results in Table \ref{tab:ablations} provide critical insights:
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.72\linewidth]{tsne_latent_space.png}
+    \includegraphics[width=0.68\linewidth]{tsne_latent_space.png}
     \caption{\textbf{t-SNE Latent Space Visualization of Learned Multi-Modal Representations.} The 2D manifold projection demonstrates clear cluster separation across distinct musical genres and mood profiles. Classical and Jazz occupy coherent, well-defined manifolds in the upper projection space, while high-energy Metal and Rock form tight clusters driven by harmonic distortion and rhythmic topology. The smooth transitional boundaries between Pop and Disco illustrate the model's nuanced contextual understanding.}
     \label{fig:tsne}
 \end{figure}
@@ -340,7 +351,9 @@ Automated musical context understanding carries direct practical applications in
 In this paper, we proposed a hybrid structural-semantic architecture for music context understanding. By modeling audio as a Music Structure Graph of acoustic segments connected via temporal adjacency and cosine similarity, our GraphSAGE encoder captures non-local musical topologies that traditional planar CNNs overlook. Coupled with DistilBERT via cross-attention, our model establishes new performance benchmarks: a Macro-F1 of 0.618 ($+50\%$ relative over CNNs), an MAE of 0.170 on continuous emotional valence/arousal, and a zero-shot retrieval Recall@5 of 0.382. These results confirm that fusing relational graph message passing with contextual language modeling unlocks a more profound, nuanced comprehension of musical context.
 
 \begin{thebibliography}{16}
-\small
+\fontsize{8pt}{9.5pt}\selectfont
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
 \bibitem{choi2016convolutional}
 K.~Choi, G.~Fazekas, and M.~Sandler.
 \newblock Convolutional recurrent neural networks for music classification.
