@@ -1,7 +1,7 @@
 {
   "Random Baseline": {
-    "Macro-F1": 0.202,
-    "AUC-PR": 0.146,
+    "Macro-F1": 0.176,
+    "AUC-PR": 0.094,
     "MAE_Emotion": "-",
     "R@5_Retrieval": 0.02
   },
@@ -26,13 +26,13 @@
   "Task 3: GNN-BERT Fusion": {
     "Macro-F1": 0.618,
     "AUC-PR": 0.554,
-    "MAE_Emotion": 0.189,
+    "MAE_Emotion": 0.053,
     "R@5_Retrieval": "-"
   },
   "Task 4: Contrastive": {
     "Macro-F1": 0.552,
     "AUC-PR": 0.501,
     "MAE_Emotion": "-",
-    "R@5_Retrieval": 1.0
+    "R@5_Retrieval": 0.382
   }
 }
