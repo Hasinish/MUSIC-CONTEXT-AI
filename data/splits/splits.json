@@ -1,28 +1,29 @@
 {
   "train": [
+    "real_blues_00000.json",
+    "track_graph_016.json",
+    "track_graph_014.json",
     "track_graph_000.json",
+    "track_graph_007.json",
+    "track_graph_004.json",
+    "track_graph_010.json",
+    "track_graph_002.json",
     "track_graph_017.json",
     "track_graph_015.json",
+    "track_graph_012.json",
     "track_graph_001.json",
     "track_graph_008.json",
-    "track_graph_005.json",
-    "track_graph_011.json",
-    "track_graph_003.json",
-    "track_graph_018.json",
-    "track_graph_016.json",
-    "track_graph_013.json",
-    "track_graph_002.json",
-    "track_graph_009.json",
     "track_graph_019.json"
   ],
   "val": [
-    "track_graph_004.json",
-    "track_graph_012.json",
-    "track_graph_007.json"
+    "track_graph_003.json",
+    "track_graph_011.json",
+    "track_graph_006.json"
   ],
   "test": [
-    "track_graph_010.json",
-    "track_graph_014.json",
-    "track_graph_006.json"
+    "track_graph_009.json",
+    "track_graph_013.json",
+    "track_graph_018.json",
+    "track_graph_005.json"
   ]
 }
