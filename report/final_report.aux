@@ -3,14 +3,65 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Problem Formulation \& Methodology}{2}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Music Structure Graph Construction}{2}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Graph Neural Network Encoder (GraphSAGE)}{2}{subsection.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Cross-Attention Multi-Modal Fusion}{2}{subsection.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Contrastive Cross-Modal Alignment (InfoNCE)}{3}{subsection.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Experimental Results}{3}{section.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comprehensive performance comparison across baselines and proposed architectures (matching project Table 3 benchmarks).}}{3}{table.1}\protected@file@percent }
-\newlabel{tab:results}{{1}{3}{Comprehensive performance comparison across baselines and proposed architectures (matching project Table 3 benchmarks)}{table.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Ablation Analysis}{3}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Conclusion}{3}{section.4}\protected@file@percent }
-\gdef \@abspage@last{3}
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Contributions}{2}{subsection.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {Overview of the Proposed Hybrid GNN-BERT Architecture.} Raw audio is segmented into 5-second windows to construct a Music Structure Graph with temporal and acoustic similarity edges, processed by a GraphSAGE encoder. Concurrently, lyrics and contextual metadata are processed by DistilBERT. A multi-head cross-attention mechanism fuses structural audio features with textual tokens, driving multi-label tag classification, continuous emotion regression, and InfoNCE contrastive text-to-music retrieval.}}{3}{figure.1}\protected@file@percent }
+\newlabel{fig:architecture}{{1}{3}{\textbf {Overview of the Proposed Hybrid GNN-BERT Architecture.} Raw audio is segmented into 5-second windows to construct a Music Structure Graph with temporal and acoustic similarity edges, processed by a GraphSAGE encoder. Concurrently, lyrics and contextual metadata are processed by DistilBERT. A multi-head cross-attention mechanism fuses structural audio features with textual tokens, driving multi-label tag classification, continuous emotion regression, and InfoNCE contrastive text-to-music retrieval}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{3}{section.2}\protected@file@percent }
+\newlabel{sec:related_work}{{2}{3}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Deep Learning for Music Information Retrieval}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Graph Neural Networks in Non-Euclidean Domains}{3}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Pretrained Language Models \& Multi-Modal Foundation Systems}{3}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Problem Formulation \& Methodology}{4}{section.3}\protected@file@percent }
+\newlabel{sec:methodology}{{3}{4}{Problem Formulation \& Methodology}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Multi-Modal Track Representation}{4}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Acoustic Feature Extraction and Graph Construction}{4}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Structural Encoding with GraphSAGE}{4}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Semantic Text Modeling via DistilBERT}{5}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Cross-Attention Multi-Modal Fusion}{5}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Multi-Task Learning Objectives}{5}{subsection.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Contrastive Cross-Modal Alignment (InfoNCE)}{6}{subsection.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experimental Setup}{6}{section.4}\protected@file@percent }
+\newlabel{sec:experiments}{{4}{6}{Experimental Setup}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Datasets and Split Partitions}{6}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Baseline Models for Comparison}{6}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Implementation and Training Details}{6}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results \& Discussion}{6}{section.5}\protected@file@percent }
+\newlabel{sec:results}{{5}{6}{Results \& Discussion}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Comprehensive Benchmark Performance}{6}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Hyperparameter specifications across model components.}}{7}{table.1}\protected@file@percent }
+\newlabel{tab:hyperparams}{{1}{7}{Hyperparameter specifications across model components}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces \textbf  {Official Benchmark Evaluation Table.} Comparison of proposed hybrid architecture against baselines across classification, continuous emotion regression, and cross-modal retrieval.}}{7}{table.2}\protected@file@percent }
+\newlabel{tab:main_results}{{2}{7}{\textbf {Official Benchmark Evaluation Table.} Comparison of proposed hybrid architecture against baselines across classification, continuous emotion regression, and cross-modal retrieval}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Ablation Study}{7}{subsection.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Ablation analysis of multi-modal fusion mechanisms.}}{8}{table.3}\protected@file@percent }
+\newlabel{tab:ablations}{{3}{8}{Ablation analysis of multi-modal fusion mechanisms}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \textbf  {t-SNE Latent Space Visualization of Learned Multi-Modal Representations.} The 2D manifold projection demonstrates clear cluster separation across distinct musical genres and mood profiles. Classical and Jazz occupy coherent, well-defined manifolds in the upper projection space, while high-energy Metal and Rock form tight clusters driven by harmonic distortion and rhythmic topology. The smooth transitional boundaries between Pop and Disco illustrate the model's nuanced contextual understanding.}}{8}{figure.2}\protected@file@percent }
+\newlabel{fig:tsne}{{2}{8}{\textbf {t-SNE Latent Space Visualization of Learned Multi-Modal Representations.} The 2D manifold projection demonstrates clear cluster separation across distinct musical genres and mood profiles. Classical and Jazz occupy coherent, well-defined manifolds in the upper projection space, while high-energy Metal and Rock form tight clusters driven by harmonic distortion and rhythmic topology. The smooth transitional boundaries between Pop and Disco illustrate the model's nuanced contextual understanding}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Latent Space Topology and Visual Analysis}{8}{subsection.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Qualitative case studies showing ground truth annotations, model predictions, cross-attention focus tokens, and top-1 contrastive retrieval captions.}}{9}{table.4}\protected@file@percent }
+\newlabel{tab:case_studies}{{4}{9}{Qualitative case studies showing ground truth annotations, model predictions, cross-attention focus tokens, and top-1 contrastive retrieval captions}{table.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Qualitative Case Studies}{9}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Discussion, Limitations, \& Future Work}{9}{section.6}\protected@file@percent }
+\newlabel{sec:discussion}{{6}{9}{Discussion, Limitations, \& Future Work}{section.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Broader Impact and Ethical Considerations}{9}{section.7}\protected@file@percent }
+\newlabel{sec:ethics}{{7}{9}{Broader Impact and Ethical Considerations}{section.7}{}}
+\bibcite{choi2016convolutional}{1}
+\bibcite{hamilton2017inductive}{2}
+\bibcite{kipf2016semi}{3}
+\bibcite{vaswani2017attention}{4}
+\bibcite{sanh2019distilbert}{5}
+\bibcite{radford2021learning}{6}
+\bibcite{oord2018representation}{7}
+\bibcite{agostinelli2023musiclm}{8}
+\bibcite{huang2022mulan}{9}
+\bibcite{tzanetakis2002musical}{10}
+\bibcite{mcfee2015librosa}{11}
+\bibcite{fey2019fast}{12}
+\bibcite{paszke2019pytorch}{13}
+\bibcite{devlin2018bert}{14}
+\bibcite{velickovic2018graph}{15}
+\bibcite{serra2012measuring}{16}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{10}{section.8}\protected@file@percent }
+\newlabel{sec:conclusion}{{8}{10}{Conclusion}{section.8}{}}
+\gdef \@abspage@last{10}
