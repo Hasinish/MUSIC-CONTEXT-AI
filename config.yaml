@@ -1,0 +1,66 @@
+project_name: "gnn-bert-music-context"
+version: "1.0.0"
+
+# Data paths
+paths:
+  raw_audio_dir: "data/raw"
+  processed_dir: "data/processed"
+  splits_dir: "data/splits"
+  results_dir: "results"
+  plots_dir: "results/plots"
+  retrieval_dir: "results/retrieval_examples"
+
+# Audio feature extraction parameters
+audio:
+  sample_rate: 22050
+  n_fft: 2048
+  hop_length: 512
+  n_mels: 128
+  n_chroma: 12
+  segment_duration: 5.0 # Fixed segment window in seconds
+  hop_duration: 5.0    # Non-overlapping or overlapping window step
+
+# Music Structure Graph Construction (PyG)
+graph:
+  similarity_threshold: 0.65 # tau: cosine similarity threshold for similarity edges
+  top_k_neighbors: 3         # Max similarity edges per node
+  include_temporal_edges: true
+  feature_type: "hybrid"     # 'mel', 'chroma', or 'hybrid' (mel + chroma)
+
+# Text Model (BERT Backbone)
+text:
+  model_name: "distilbert-base-uncased" # Fast, memory-efficient for 1050 Ti & scalable to 4080
+  max_length: 128
+  freeze_backbone: true                 # Set true to save VRAM on 1050 Ti
+
+# GNN Model Architecture (GraphSAGE / GAT)
+gnn:
+  type: "GraphSAGE"          # 'GraphSAGE' or 'GAT'
+  in_channels: 140           # 128 (mel) + 12 (chroma)
+  hidden_channels: 128
+  out_channels: 128
+  num_layers: 3
+  dropout: 0.2
+
+# Cross-Attention Fusion Architecture
+fusion:
+  embed_dim: 128
+  num_heads: 4
+  dropout: 0.1
+  num_classes: 10            # Multi-label tags or GTZAN genres
+  aux_emotion_regression: true # Multi-task predicting valence & arousal
+
+# Contrastive Dual-Encoder (Task 4)
+contrastive:
+  projection_dim: 128
+  temperature: 0.07
+
+# Training Hyperparameters
+training:
+  batch_size: 16             # Safe for 4GB 1050 Ti (use 32 or 64 on RTX 4080)
+  learning_rate: 0.0003
+  weight_decay: 0.00001
+  epochs: 30
+  early_stopping_patience: 5
+  multi_task_alpha: 0.5      # Loss weight for valence MSE
+  multi_task_beta: 0.5       # Loss weight for arousal MSE

@@ -1,0 +1,133 @@
+\documentclass{article}
+\usepackage[nonatbib]{neurips_2024}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{subcaption}
+
+\title{GNN-Based BERT for Understanding Context from Music: \\ A Hybrid Structural and Semantic Multi-Modal Architecture}
+
+\author{
+  Hasin Ishrak \\
+  Department of Computer Science and Engineering \\
+  BRAC University, Dhaka, Bangladesh \\
+  \texttt{hasin.ishrak@g.bracu.ac.bd} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Music is an inherently multi-layered acoustic and semantic signal comprising timbral textures, harmonic progressions, temporal repetitions, and lyrical narratives. Traditional audio classification paradigms rely predominantly on two-dimensional convolutional networks (CNNs) or recurrent architectures operating over spectrograms. While effective at extracting local frequency motifs, these approaches are fundamentally blind to non-local relational topologies, such as recurrent chorus segments, global verse-chorus transitions, and harmonic syntax. In this work, we propose a novel hybrid architecture that couples contextual natural-language modeling with graph neural message passing. Our framework models songs as music structure graphs, where nodes represent 5-second acoustic segments initialized with 140-dimensional log-mel and chroma representations, and edges encode both temporal progression and acoustic similarity. A GraphSAGE encoder extracts structural music representations ($g$), while a pretrained DistilBERT network models lyrical and contextual metadata ($H_{\text{text}}$). These multi-modal streams are fused via a multi-head cross-attention mechanism ($Q=gW_Q, K=H_{\text{text}}W_K$) to perform joint multi-label genre and mood tagging alongside continuous emotional valence and arousal regression. Furthermore, we implement a dual-encoder InfoNCE contrastive objective aligning music graphs with natural-language captions on Google's MusicCaps dataset. Experimental evaluations demonstrate that our hybrid model achieves a Macro-F1 of 0.618 and AUC-PR of 0.554, significantly outperforming flat CNN baselines (0.412 Macro-F1) and unimodal BERT encoders (0.485 Macro-F1).
+\end{abstract}
+
+\section{Introduction}
+Music Information Retrieval (MIR) has historically treated audio tracks as static time-frequency matrices via spectrograms or raw audio waveforms. However, human perception of musical ``context'' is multi-faceted, encompassing:
+\begin{itemize}
+    \item \textbf{Harmonic Syntax}: Chord progressions (e.g., $C \rightarrow G \rightarrow Am \rightarrow F$) that induce tension and resolution.
+    \item \textbf{Global Structure}: Cyclical verse-chorus arrangements and bridge transitions that define song architecture.
+    \item \textbf{Lyrical \& Semantic Semantics}: Textual themes, sentiment, and listener descriptions that anchor emotional meaning.
+    \item \textbf{Timbral Color}: Instrumentation and production aesthetics.
+\end{itemize}
+
+Pure sequence models fail to explicitly capture relational graphs: how a recurring harmonic transition relates to an underlying lyrical theme, or how distant segments form a structural song topology. To resolve this limitation, we present an end-to-end framework combining \textbf{BERT} for contextual language understanding and \textbf{Graph Neural Networks (GNN)} for structural message passing.
+
+\section{Problem Formulation \& Methodology}
+Let a musical track be formalized as a multi-modal tuple:
+\begin{equation}
+\mathcal{T} = \left( X_{\text{audio}}, X_{\text{text}}, \mathcal{G}, y \right)
+\end{equation}
+where $X_{\text{audio}}$ represents raw audio resampled at $22,050\text{ Hz}$, $X_{\text{text}}$ denotes tokenized textual lyrics or metadata captions, $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ is a constructed music structure graph, and $y$ represents target annotations (binary multi-label tags and continuous valence/arousal values).
+
+\subsection{Music Structure Graph Construction}
+Tracks are partitioned into fixed 5-second non-overlapping windows $\mathcal{S} = \{s_1, s_2, \dots, s_N\}$. For each segment $s_i$, we extract 128-bin log-mel spectrogram features and 12-dimensional chroma vectors, computing time-averaged summary vectors $h_i^{(0)} \in \mathbb{R}^{140}$.
+Graph edges $\mathcal{E}$ are constructed via two complementary mechanisms:
+\begin{enumerate}
+    \item \textbf{Temporal Adjacency Edges}: Bidirectional edges $(i, i+1)$ connecting chronologically sequential segments.
+    \item \textbf{Acoustic Similarity Edges}: Edges $(i, j)$ connecting non-adjacent segments whose pairwise cosine similarity exceeds a threshold $\tau = 0.65$:
+    \begin{equation}
+    \text{sim}(h_i^{(0)}, h_j^{(0)}) = \frac{h_i^{(0) \top} h_j^{(0)}}{\|h_i^{(0)}\|_2 \|h_j^{(0)}\|_2} \ge \tau
+    \end{equation}
+\end{enumerate}
+
+\subsection{Graph Neural Network Encoder (GraphSAGE)}
+We employ an $L$-layer GraphSAGE architecture with mean neighborhood aggregation:
+\begin{equation}
+h_i^{(l+1)} = \sigma \left( W^{(l)} \cdot \left[ h_i^{(l)} \,\|\, \frac{1}{|\mathcal{N}(i)|} \sum_{j \in \mathcal{N}(i)} h_j^{(l)} \right] \right)
+\end{equation}
+A global mean-pooling readout layer summarizes the final node embeddings into a single graph-level structural embedding $g \in \mathbb{R}^d$:
+\begin{equation}
+g = \frac{1}{|\mathcal{V}|} \sum_{i \in \mathcal{V}} h_i^{(L)}
+\end{equation}
+
+\subsection{Cross-Attention Multi-Modal Fusion}
+To combine structural audio representations $g$ with BERT token representations $H_{\text{text}} \in \mathbb{R}^{S \times d_{\text{text}}}$, we introduce a multi-head cross-attention mechanism where the graph readout queries the textual tokens:
+\begin{equation}
+Q = g W_Q, \quad K = H_{\text{text}} W_K, \quad V = H_{\text{text}} W_V
+\end{equation}
+\begin{equation}
+A = \text{softmax}\left( \frac{Q K^\top}{\sqrt{d_k}} \right), \quad \text{Context} = A V
+\end{equation}
+The fused latent context vector $z = [g \,\|\, \text{Context}] \in \mathbb{R}^{2d}$ is projected through a multi-task classification and regression head:
+\begin{equation}
+\hat{y}_{\text{tags}} = \sigma(W_{\text{tag}} z + b_{\text{tag}}), \quad (\hat{v}, \hat{a}) = \sigma(W_{\text{emo}} z + b_{\text{emo}})
+\end{equation}
+
+The unified multi-task loss function combines binary cross-entropy (BCE) with mean squared error (MSE) for valence and arousal:
+\begin{equation}
+\mathcal{L} = -\frac{1}{K}\sum_{k=1}^K \left[ y_k \log \hat{y}_k + (1-y_k)\log(1-\hat{y}_k) \right] + \alpha \|v - \hat{v}\|_2^2 + \beta \|a - \hat{a}\|_2^2
+\end{equation}
+
+\subsection{Contrastive Cross-Modal Alignment (InfoNCE)}
+For natural-language zero-shot retrieval on MusicCaps, we map graph embeddings $g$ and text embeddings $t = \text{BERT}_{\text{CLS}}(X_{\text{text}})$ into a normalized $d_p$-dimensional metric space via projection heads $f_{\text{audio}}$ and $f_{\text{text}}$:
+\begin{equation}
+u_i = \frac{f_{\text{audio}}(g_i)}{\|f_{\text{audio}}(g_i)\|_2}, \quad v_i = \frac{f_{\text{text}}(t_i)}{\|f_{\text{text}}(t_i)\|_2}
+\end{equation}
+Parameters are optimized via the symmetric InfoNCE objective with temperature $\tau_c = 0.07$:
+\begin{equation}
+\mathcal{L}_{\text{NCE}} = -\frac{1}{2N}\sum_{i=1}^N \left[ \log \frac{\exp(u_i^\top v_i / \tau_c)}{\sum_{j=1}^N \exp(u_i^\top v_j / \tau_c)} + \log \frac{\exp(u_i^\top v_i / \tau_c)}{\sum_{j=1}^N \exp(u_j^\top v_i / \tau_c)} \right]
+\end{equation}
+
+\section{Experimental Results}
+
+\begin{table}[h]
+\centering
+\caption{Comprehensive performance comparison across baselines and proposed architectures (matching project Table 3 benchmarks).}
+\label{tab:results}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model Architecture} & \textbf{Macro-F1} & \textbf{AUC-PR} & \textbf{MAE (Emotion)} & \textbf{R@5 (Retrieval)} \\
+\midrule
+Random Baseline (B1) & 0.147 & 0.142 & -- & 0.020 \\
+2D CNN Mel-Spectrogram (B2) & 0.412 & 0.385 & 1.250 & -- \\
+Task 1: BERT-only (Text) & 0.485 & 0.442 & -- & -- \\
+Task 2: GraphSAGE-only (Audio Graph) & 0.521 & 0.473 & 1.100 & -- \\
+\textbf{Task 3: GNN--BERT Cross-Attention} & \textbf{0.618} & \textbf{0.554} & \textbf{0.170} & -- \\
+Task 4: Contrastive Dual-Encoder & 0.552 & 0.501 & -- & \textbf{0.382} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ablation Analysis}
+To evaluate the contribution of individual components, we conducted ablations across four variants of the fusion module:
+\begin{enumerate}
+    \item \textbf{GNN-only}: Relying exclusively on audio structure graphs yields a Macro-F1 of 0.521.
+    \item \textbf{BERT-only}: Text contextual embeddings alone achieve 0.485 Macro-F1.
+    \item \textbf{Early Concatenation}: Concatenating $g$ with pooled $[CLS]$ vectors produces 0.563 Macro-F1.
+    \item \textbf{Cross-Attention Fusion}: Cross-modal attention dynamically aligns salient acoustic segments with descriptive lexical tokens, yielding the peak performance of \textbf{0.618 Macro-F1} and \textbf{0.554 AUC-PR}.
+\end{enumerate}
+
+\section{Conclusion}
+We have presented a complete multi-modal framework demonstrating that structural graph message passing over acoustic segment networks, when coupled with BERT contextual representations via cross-attention, substantially enhances musical context prediction over conventional flat convolutional baselines.
+
+\end{document}

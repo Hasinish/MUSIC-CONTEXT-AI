@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Raw Datasets (Audio files & archives - download via src/download_dataset.py)
+data/raw/*
+!data/raw/.gitkeep
+*.tar.gz
+*.zip
+*.wav
+*.mp3
+*.au
+
+# macOS / OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE & Environments
+.vscode/
+.idea/
+*.swp
+*.swo
+env/
+venv/
+.venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs
+*.log

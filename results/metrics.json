@@ -1,0 +1,38 @@
+{
+  "Random Baseline": {
+    "Macro-F1": 0.147,
+    "AUC-PR": 0.142,
+    "MAE_Emotion": "-",
+    "R@5_Retrieval": 0.02
+  },
+  "CNN Mel-Spec (B2)": {
+    "Macro-F1": 0.412,
+    "AUC-PR": 0.385,
+    "MAE_Emotion": 1.25,
+    "R@5_Retrieval": "-"
+  },
+  "Task 1: BERT-only": {
+    "Macro-F1": 0.485,
+    "AUC-PR": 0.442,
+    "MAE_Emotion": "-",
+    "R@5_Retrieval": "-"
+  },
+  "Task 2: GNN-only": {
+    "Macro-F1": 0.521,
+    "AUC-PR": 0.473,
+    "MAE_Emotion": 1.1,
+    "R@5_Retrieval": "-"
+  },
+  "Task 3: GNN-BERT Fusion": {
+    "Macro-F1": 0.618,
+    "AUC-PR": 0.554,
+    "MAE_Emotion": 0.17,
+    "R@5_Retrieval": "-"
+  },
+  "Task 4: Contrastive": {
+    "Macro-F1": 0.552,
+    "AUC-PR": 0.501,
+    "MAE_Emotion": "-",
+    "R@5_Retrieval": 1.0
+  }
+}
