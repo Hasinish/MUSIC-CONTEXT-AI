@@ -138,7 +138,7 @@ Outputs:
 
 ---
 
-## 💻 Interactive Demo
+## 💻 Interactive Demonstration
 Launch the interactive Jupyter notebook to perform one-click forward-pass inference on any song:
 ```bash
 jupyter notebook notebooks/demo_context.ipynb
